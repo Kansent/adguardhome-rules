@@ -19,7 +19,7 @@ jobs:
       - name: Convert domains to AdGuard Home Whitelist syntax
         run: |
           # 过滤空白行和注释，并添加 @@||域名^ 语法
-          sed -E '/^[[:space:]]*$/d; /^[[:space:]]*#/d; s/^[[:space:]]*//; s/[[:space:]]*$//; s/^(.*)$/@@||\1^/' domains.txt > allowlist.txt
+          sed -E '/^[[:space:]]*$/d; /^[[:space:]]*#/d; s/^[[:space:]]*//; s/[[:space:]]*$//; s/^(.*)$/@@||\1^/' whitelist.txt > allowlist.txt
 
       - name: Commit and Push generated allowlist
         run: |
