@@ -1,0 +1,29 @@
+name: Generate AdGuard Home Whitelist
+
+on:
+  push:
+    paths:
+      - 'whitelist.txt' # 仅当 domains.txt 更新时触发
+  workflow_dispatch: # 支持手动触发
+
+permissions:
+  contents: write # 赋予写入仓库权限
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Convert domains to AdGuard Home Whitelist syntax
+        run: |
+          # 过滤空白行和注释，并添加 @@||域名^ 语法
+          sed -E '/^[[:space:]]*$/d; /^[[:space:]]*#/d; s/^[[:space:]]*//; s/[[:space:]]*$//; s/^(.*)$/@@||\1^/' domains.txt > allowlist.txt
+
+      - name: Commit and Push generated allowlist
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add allowlist.txt
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate AdGuard Home whitelist" && git push)
