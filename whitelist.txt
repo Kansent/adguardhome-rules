@@ -7,3 +7,5 @@ mcs.zijieapi.com
 tnc0-aliec2.zijieapi.com
 tnc0-alisc1.zijieapi.com
 snssdk.com
+amdc-v6.alipaydns.com
+amdc.alipaydns.com
