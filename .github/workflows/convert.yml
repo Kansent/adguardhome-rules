@@ -34,7 +34,7 @@ jobs:
 
           sed -E '/^[[:space:]]*$/d; /^[[:space:]]*#/d; s/^[[:space:]]*//; s/[[:space:]]*$//' whitelist.txt \
             | sort -u \
-            | sed 's/^(.*)$/@@||\1^/' >> $OUTPUT_FILE
+            | sed 's/^/@@||/; s/$/^/' >> "$OUTPUT_FILE"
 
       - name: Commit and Push generated allowlist
         run: |
