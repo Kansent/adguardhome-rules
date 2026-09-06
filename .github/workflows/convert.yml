@@ -4,10 +4,15 @@ on:
   push:
     paths:
       - 'whitelist.txt' 
-  workflow_dispatch: 
+      - '.github/workflows/convert.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: generate-allowlist
+  cancel-in-progress: true
 
 jobs:
   convert:
@@ -18,6 +23,7 @@ jobs:
 
       - name: Convert domains to AdGuard Home Whitelist syntax
         run: |
+          set -e
           mkdir -p release_output
           OUTPUT_FILE="release_output/allowlist.txt"
           
@@ -37,16 +43,21 @@ jobs:
             | sort -u \
             | sed 's/^/@@||/; s/$/^/' >> "$OUTPUT_FILE"
 
-      - name: Deploy allowlist to release branch
+      - name: Deploy to Release Branch
         run: |
-          if [ -f "release_output/allowlist.txt" ]; then
-            cd release_output
-            git init
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "build: auto generate adguardhome allowlist"
-            git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:release
-          else
-            echo "No allowlist file found, skip deployment."
+          set -e
+          cd release_output
+
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add .
+
+          if git diff --cached --quiet; then
+            echo "No changes in generated allowlist."
+            exit 0
           fi
+
+          git commit -m "build: auto generate adguardhome allowlist"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:release
