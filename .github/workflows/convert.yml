@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Convert domains to AdGuard Home Whitelist syntax
         run: |
@@ -36,9 +38,20 @@ jobs:
             | sort -u \
             | sed 's/^/@@||/; s/$/^/' >> "$OUTPUT_FILE"
 
-      - name: Commit and Push generated allowlist
+      - name: Commit and Push generated allowlist to release branch
         run: |
+          TARGET_BRANCH="release"
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+
+          git checkout -B $TARGET_BRANCH
+
           git add allowlist.txt
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate AdGuard Home whitelist with metadata" && git push)
+
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-generate AdGuard Home whitelist with metadata"
+            git push origin $TARGET_BRANCH
+          else
+            echo "No changes detected in allowlist.txt."
+          fi
