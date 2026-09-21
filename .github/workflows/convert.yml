@@ -5,7 +5,6 @@ on:
     paths:
       - 'whitelist.txt' 
       - '.github/workflows/convert.yml'
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -30,8 +29,8 @@ jobs:
           NOW=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
 
           cat << EOF > $OUTPUT_FILE
-          ! Title: Whitelist for HaGeZi Pro DNS Blocklist
-          ! Description: Whitelist rules when using HaGeZi's Pro DNS Blocklist
+          ! Title: Whitelist for OISD BIG DNS Blocklist
+          ! Description: Whitelist rules when using OISD BIG DNS Blocklist
           ! Homepage: https://github.com/${{ github.repository }}
           ! Last Modified: ${NOW}
           ! Syntax: AdGuard Home Filter Rules
