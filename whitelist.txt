@@ -1,3 +1,6 @@
 duiba.com.cn
-play.aiseet.atianqi.com
 jf365.boc.cn
+
+# Tencent Video
+tv.aiseet.atianqi.com
++.play.aiseet.atianqi.com
