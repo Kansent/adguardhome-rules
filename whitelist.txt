@@ -1,5 +1,7 @@
-duiba.com.cn
-jf365.boc.cn
++.duiba.com.cn
+
+# BOC CN
++.jf365.boc.cn
 
 # Tencent Video
 tv.aiseet.atianqi.com
