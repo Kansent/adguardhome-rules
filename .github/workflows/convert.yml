@@ -25,10 +25,10 @@ jobs:
           set -e
           mkdir -p release_output
           OUTPUT_FILE="release_output/allowlist.txt"
-          
+
           NOW=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
 
-          cat << EOF > $OUTPUT_FILE
+          cat << EOF > "$OUTPUT_FILE"
           ! Title: Whitelist for OISD BIG DNS Blocklist
           ! Description: Whitelist rules when using OISD BIG DNS Blocklist
           ! Homepage: https://github.com/${{ github.repository }}
@@ -38,9 +38,21 @@ jobs:
 
           EOF
 
-          sed -E '/^[[:space:]]*$/d; /^[[:space:]]*#/d; s/^[[:space:]]*//; s/[[:space:]]*$//' whitelist.txt \
+          sed -E '
+            /^[[:space:]]*$/d
+            /^[[:space:]]*#/d
+            s/^[[:space:]]*//
+            s/[[:space:]]*$//
+            /^\+\./ {
+              s/^\+\.//
+              s/^/@@||/
+              s/$/^/
+              b
+            }
+            s/^/@@||/
+          ' whitelist.txt \
             | sort -u \
-            | sed 's/^/@@||/; s/$/^/' >> "$OUTPUT_FILE"
+            >> "$OUTPUT_FILE"
 
       - name: Deploy to Release Branch
         run: |
