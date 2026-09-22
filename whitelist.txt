@@ -1,4 +1,3 @@
 duiba.com.cn
-aiseet.atianqi.com
+play.aiseet.atianqi.com
 jf365.boc.cn
-in.appcenter.ms
