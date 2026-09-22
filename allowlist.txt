@@ -1,0 +1,11 @@
+! Title: Whitelist for OISD BIG DNS Blocklist
+! Description: Whitelist rules when using OISD BIG DNS Blocklist
+! Homepage: https://github.com/Kansent/adguardhome-rules
+! Last Modified: 2026-09-22 14:36:34 UTC
+! Syntax: AdGuard Home Filter Rules
+! --------------------------------------------------
+
+@@||duiba.com.cn^
+@@||jf365.boc.cn^
+@@||play.aiseet.atianqi.com^
+@@||tv.aiseet.atianqi.com
