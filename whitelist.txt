@@ -4,6 +4,6 @@
 +.jf365.boc.cn
 
 # Tencent Video
-tv.aiseet.atianqi.com
-+.play.aiseet.atianqi.com
 api.poll.aiseet.atianqi.com
+tv.aiseet.atianqi.com
+vv.play.aiseet.atianqi.com
