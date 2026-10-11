@@ -6,3 +6,4 @@
 # Tencent Video
 tv.aiseet.atianqi.com
 +.play.aiseet.atianqi.com
+api.poll.aiseet.atianqi.com
